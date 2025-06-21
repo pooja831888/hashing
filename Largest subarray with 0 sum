@@ -1,0 +1,36 @@
+class Solution {
+
+    public int longestConsecutive(int[] arr) {
+        
+    HashMap<Integer, Boolean> map = new HashMap<>();
+    int maxlen = 0;
+
+    for (int num : arr) {
+        map.put(num, true);
+    }
+
+    // Step 2: If num - 1 exists, then current num is not a starting point
+    for (int num : arr) {
+        if (map.containsKey(num - 1)) {
+            map.put(num, false);  
+        }
+    }
+
+    // Step 3: From each valid starting point, count consecutive length
+    for (int num : arr) {
+        if (map.get(num)) { // only start from true
+            int len = 1;
+            int current = num;
+
+            while (map.containsKey(current + 1)) {
+                current++;
+                len++;
+            }
+
+            maxlen = Math.max(maxlen, len);
+        }
+    }
+
+    return maxlen;
+    }
+}
